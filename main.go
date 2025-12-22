@@ -11,17 +11,21 @@ func main() {
 	log.Println("Starting browser...")
 
 	browser := rod.New().MustConnect()
-	page := browser.MustPage("https://www.google.com")
+	page := browser.MustPage("https://duckduckgo.com")
 
 	page.MustWaitLoad()
 
 	log.Println("Typing into search box...")
 
-	searchBox := page.MustElement("input[name='q']")
-	searchBox.MustInput("LinkedIn Automation\n") // ← ENTER FIX
+	// DuckDuckGo search input
+	searchBox := page.MustElement("#searchbox_input")
+
+	// Type query + Enter
+	searchBox.MustInput("LinkedIn Automation\n")
 
 	log.Println("Search submitted")
 
+	// Wait to observe results
 	time.Sleep(4 * time.Second)
 
 	browser.MustClose()
