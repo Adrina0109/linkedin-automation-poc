@@ -6,12 +6,13 @@ import (
 	"github.com/go-rod/rod"
 
 	"linkedin-automation/stealth"
+	"linkedin-automation/storage"
 )
 
 func Login(page *rod.Page, email string, password string) bool {
 	log.Println("Starting login flow...")
 
-	// --- Stealth: fingerprint masking ---
+	// --- Stealth: fingerprint masking (no-op for stability) ---
 	stealth.MaskFingerprint(page)
 
 	// --- Think time before interaction ---
@@ -42,9 +43,13 @@ func Login(page *rod.Page, email string, password string) bool {
 	_, err := page.Element("a[href='/logout']")
 	if err == nil {
 		log.Println("Login successful")
+		_ = storage.SaveLogin("success")
+		log.Println("Login state saved to state.json")
 		return true
+
 	}
 
 	log.Println("Login failed")
+	_ = storage.SaveLogin("failure") // ✅ STATE PERSISTENCE
 	return false
 }
