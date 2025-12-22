@@ -5,32 +5,32 @@ import (
 	"time"
 
 	"github.com/go-rod/rod"
+
+	"linkedin-automation/auth"
+	"linkedin-automation/config"
 )
 
 func main() {
-	log.Println("Starting browser...")
+	log.Println("Starting authentication demo...")
+
+	cfg := config.Load()
 
 	browser := rod.New().MustConnect()
-	page := browser.MustPage("https://example.com")
+	page := browser.MustPage("https://the-internet.herokuapp.com/login")
 	page.MustWaitLoad()
 
-	log.Println("Hovering over heading...")
+	success := auth.Login(page, cfg.Email, cfg.Password)
 
-	// Find the heading
-	heading := page.MustElement("h1")
+	if !success {
+		log.Println("Stopping due to login failure")
+		browser.MustClose()
+		return
+	}
 
-	// Hover (human-like behavior)
-	heading.MustHover()
-	time.Sleep(1 * time.Second)
+	log.Println("Login successful — keeping browser open for visibility")
 
-	log.Println("Reading page text...")
-
-	// Read text content
-	text := heading.MustText()
-	log.Println("Heading text:", text)
-
-	time.Sleep(2 * time.Second)
+	time.Sleep(10 * time.Second) // <-- this is the key
 
 	browser.MustClose()
-	log.Println("Browser closed")
+	log.Println("Browser closed cleanly")
 }
