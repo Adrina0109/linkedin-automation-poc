@@ -20,7 +20,6 @@ var mu sync.Mutex
 
 const stateFile = "state.json"
 
-// LoadState WITHOUT locking (caller controls locking)
 func loadStateUnsafe() (*State, error) {
 	if _, err := os.Stat(stateFile); os.IsNotExist(err) {
 		return &State{Logins: []LoginRecord{}}, nil
