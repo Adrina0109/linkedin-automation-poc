@@ -11,22 +11,25 @@ func main() {
 	log.Println("Starting browser...")
 
 	browser := rod.New().MustConnect()
-	page := browser.MustPage("https://duckduckgo.com")
-
+	page := browser.MustPage("https://example.com")
 	page.MustWaitLoad()
 
-	log.Println("Typing into search box...")
+	log.Println("Hovering over heading...")
 
-	// DuckDuckGo search input
-	searchBox := page.MustElement("#searchbox_input")
+	// Find the heading
+	heading := page.MustElement("h1")
 
-	// Type query + Enter
-	searchBox.MustInput("LinkedIn Automation\n")
+	// Hover (human-like behavior)
+	heading.MustHover()
+	time.Sleep(1 * time.Second)
 
-	log.Println("Search submitted")
+	log.Println("Reading page text...")
 
-	// Wait to observe results
-	time.Sleep(4 * time.Second)
+	// Read text content
+	text := heading.MustText()
+	log.Println("Heading text:", text)
+
+	time.Sleep(2 * time.Second)
 
 	browser.MustClose()
 	log.Println("Browser closed")
