@@ -61,16 +61,7 @@ Runtime fingerprint manipulation (e.g., `navigator.webdriver`) is intentionally 
 Automation state is persisted in `state.json` using a thread-safe JSON store.  
 This enables resumability, auditing, and controlled execution.
 
-Example:
-```json
-{
-  "logins": [
-    {
-      "timestamp": "2025-12-22T21:08:31+05:30",
-      "status": "success"
-    }
-  ]
-}
+---
 
 ## Design Notes
 - High-risk LinkedIn actions are safety-gated to respect platform constraints
