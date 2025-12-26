@@ -2,3 +2,5 @@
 *.exe
 node_modules
 .DS_Store
+cookies.json
+state.json

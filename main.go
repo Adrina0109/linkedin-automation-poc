@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"strings"
 	"time"
 
 	"github.com/go-rod/rod"
@@ -9,10 +10,11 @@ import (
 	"linkedin-automation/auth"
 	"linkedin-automation/config"
 	"linkedin-automation/cookies"
+	"linkedin-automation/connections"
 )
 
 func main() {
-	log.Println("Starting authentication demo...")
+	log.Println("Starting LinkedIn automation demo...")
 
 	cfg := config.Load()
 
@@ -21,9 +23,33 @@ func main() {
 	page.MustWaitLoad()
 
 	success := auth.Login(page, cfg.Email, cfg.Password)
-
 	if !success {
 		log.Println("Stopping due to login failure")
+		browser.MustClose()
+		return
+	}
+
+	if els, _ := page.Elements("iframe"); len(els) > 0 {
+		for _, el := range els {
+			src, _ := el.Attribute("src")
+			if src != nil && *src != "" {
+				log.Println("Possible captcha iframe detected. Stopping automation.")
+				browser.MustClose()
+				return
+			}
+		}
+	}
+
+	bodyText := page.MustElement("body").MustText()
+
+	if strings.Contains(bodyText, "checkpoint") {
+		log.Println("Security checkpoint detected. Stopping automation.")
+		browser.MustClose()
+		return
+	}
+
+	if strings.Contains(bodyText, "unusual activity") {
+		log.Println("Unusual activity warning detected. Stopping automation.")
 		browser.MustClose()
 		return
 	}
@@ -35,10 +61,14 @@ func main() {
 		log.Println("Cookies saved to cookies.json")
 	}
 
-	log.Println("Login successful — keeping browser open for visibility")
+	sent := 0
+	log.Println("Attempting connection request (demo)...")
+	connections.SendConnection(page, &sent, cfg)
 
+	log.Println("Automation completed — keeping browser open for visibility")
 	time.Sleep(10 * time.Second)
 
 	browser.MustClose()
 	log.Println("Browser closed cleanly")
+	
 }

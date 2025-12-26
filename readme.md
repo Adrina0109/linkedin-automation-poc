@@ -52,6 +52,8 @@ Cookie reuse logic is implemented conservatively to avoid browser lifecycle inst
 - Human-like mouse movement using Bézier curves
 - Browser-native mouse events dispatched via JavaScript
 - Business-hour–aware execution design
+- Dry-run execution mode to safely demonstrate automation logic without performing live actions
+
 
 Runtime fingerprint manipulation (e.g., `navigator.webdriver`) is intentionally avoided for stability and safety, with emphasis placed on behavioral stealth techniques.
 
@@ -67,6 +69,21 @@ This enables resumability, auditing, and controlled execution.
 - High-risk LinkedIn actions are safety-gated to respect platform constraints
 - Search, connection, and messaging modules are implemented as extensible components
 - The project prioritizes stability, clarity, and evaluability over aggressive automation
+
+---
+
+## Engineering Decisions
+This project intentionally prioritizes stability, safety, and explainability over aggressive automation.  
+The goal was to demonstrate how I approach unfamiliar systems, break down large requirements, and build extensible solutions under time constraints.
+
+---
+
+## Future Improvements
+- Intelligent captcha and checkpoint detection
+- Adaptive rate limiting based on platform feedback
+- Advanced mouse physics with micro-corrections
+- SQLite-based persistence for large-scale runs
+- Dashboard for automation reports
 
 ---
 

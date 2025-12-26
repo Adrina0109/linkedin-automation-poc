@@ -10,7 +10,7 @@ import (
 type Config struct {
 	Email    string
 	Password string
-	Headless bool
+	DryRun   bool
 }
 
 func Load() *Config {
@@ -22,6 +22,6 @@ func Load() *Config {
 	return &Config{
 		Email:    os.Getenv("LOGIN_EMAIL"),
 		Password: os.Getenv("LOGIN_PASSWORD"),
-		Headless: os.Getenv("HEADLESS") == "true",
+		DryRun:   os.Getenv("DRY_RUN") == "true",
 	}
 }
