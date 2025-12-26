@@ -53,7 +53,7 @@ Cookie reuse logic is implemented conservatively to avoid browser lifecycle inst
 - Browser-native mouse events dispatched via JavaScript
 - Business-hour–aware execution design
 - Dry-run execution mode to safely demonstrate automation logic without performing live actions
-
+- Isolated incognito browser contexts to reduce shared fingerprint exposure
 
 Runtime fingerprint manipulation (e.g., `navigator.webdriver`) is intentionally avoided for stability and safety, with emphasis placed on behavioral stealth techniques.
 
@@ -84,6 +84,25 @@ The goal was to demonstrate how I approach unfamiliar systems, break down large 
 - Advanced mouse physics with micro-corrections
 - SQLite-based persistence for large-scale runs
 - Dashboard for automation reports
+
+---
+
+## Feature Coverage Summary
+
+| Requirement | Status |
+|-----------|--------|
+| Authentication via environment variables | Implemented |
+| Graceful login failure handling | Implemented |
+| Session cookie persistence | Implemented |
+| Search and targeting architecture | Implemented (POC) |
+| Profile deduplication | Implemented |
+| Connection requests with rate limits | Implemented |
+| Messaging templates | Implemented (POC) |
+| Human-like mouse movement (Bézier curves) | Implemented |
+| Randomized timing and pacing | Implemented |
+| Activity scheduling | Implemented |
+| Dry run safety mode | Implemented |
+| State persistence | Implemented |
 
 ---
 

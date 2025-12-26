@@ -11,6 +11,7 @@ import (
 	"linkedin-automation/config"
 	"linkedin-automation/cookies"
 	"linkedin-automation/connections"
+	"linkedin-automation/storage"
 )
 
 func main() {
@@ -19,6 +20,8 @@ func main() {
 	cfg := config.Load()
 
 	browser := rod.New().MustConnect()
+	browser = browser.MustIncognito()
+
 	page := browser.MustPage("https://the-internet.herokuapp.com/login")
 	page.MustWaitLoad()
 
@@ -65,10 +68,15 @@ func main() {
 	log.Println("Attempting connection request (demo)...")
 	connections.SendConnection(page, &sent, cfg)
 
+	storage.SaveReport(storage.Report{
+		Timestamp:       time.Now(),
+		Logins:          1,
+		ConnectionsSent: sent,
+	})
+
 	log.Println("Automation completed — keeping browser open for visibility")
 	time.Sleep(10 * time.Second)
 
 	browser.MustClose()
 	log.Println("Browser closed cleanly")
-	
 }
