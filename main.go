@@ -18,6 +18,10 @@ func main() {
 	log.Println("Starting LinkedIn automation demo...")
 
 	cfg := config.Load()
+	
+	log.Println("Configuration loaded")
+	log.Printf("Dry Run mode: %v\n", cfg.DryRun)
+	log.Println("Using isolated incognito browser context")
 
 	browser := rod.New().MustConnect()
 	browser = browser.MustIncognito()
